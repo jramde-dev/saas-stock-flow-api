@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: stock-flow-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-stock-flow}
+      POSTGRES_USER: ${DB_USER:-stock-flow}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-stock-flow}
+      PGDATA: /var/lib/postgresql/pgdata
+    ports:
+      - "${DB_PORT:-5434}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - stock-flow-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+networks:
+  stock-flow-network:
+    driver: bridge
