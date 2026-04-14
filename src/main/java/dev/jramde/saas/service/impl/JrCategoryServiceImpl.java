@@ -63,7 +63,10 @@ public class JrCategoryServiceImpl implements ICategoryService {
     @Override
     public void delete(String id) {
         categoryRepository.findById(id).ifPresent(category -> {
-            productRepository.deleteAll(category.getProducts());
+            category.getProducts().forEach(product -> {
+                product.setDeleted(true);
+                productRepository.save(product);
+            });
             categoryRepository.delete(category);
         });
     }

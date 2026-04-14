@@ -4,7 +4,6 @@ import dev.jramde.saas.dto.request.JrCategoryRequest;
 import dev.jramde.saas.dto.response.JrCategoryResponse;
 import dev.jramde.saas.entity.JrCategory;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,6 +27,6 @@ public class JrCategoryMapper {
     public List<JrCategoryResponse> toCategoryList(List<JrCategory> entities) {
         return entities.stream()
                 .map(this::maps)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

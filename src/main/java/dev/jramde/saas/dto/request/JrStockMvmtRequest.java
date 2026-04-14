@@ -1,6 +1,7 @@
 package dev.jramde.saas.dto.request;
 
 import dev.jramde.saas.entity.enums.ETypeMvmt;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,5 +19,7 @@ public class JrStockMvmtRequest {
     private Integer quantity;
     private LocalDateTime dateMvmt;
     private String comment;
+
+    @NotNull(message = "Product is required.")
     private String productId;
 }

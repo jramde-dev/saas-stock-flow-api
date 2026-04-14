@@ -44,5 +44,5 @@ public class JrProduct extends JrAbstractAuditEntity {
     private JrCategory category;
 
     @OneToMany(mappedBy = "product")
-    private List<JrStockMvmt> mouvements;
+    private List<JrStockMvmt> movements;
 }
