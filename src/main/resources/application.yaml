@@ -1,3 +1,56 @@
 spring:
   application:
     name: stock-flow
+
+  # Permettre à Spring de lire les fichiers de configuration
+  config:
+    import: optional:file:.env[.properties] # Lire le fichier .env ou .properties
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  # Datasource config
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5434}/${DB_NAME:stock-flow}
+    username: ${DB_USER:stock-flow}
+    password: ${DB_PASSWORD:stock-flow}
+    driver-class-name: org.postgresql.Driver
+    # Utile en prod (à approfondir)
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 20000
+      idle-timeout: 30000
+      max-lifetime: 1200000
+
+  # Spring JPA config
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+        # Multi-tenancy config
+        multi_tenancy: SCHEMA
+        open-in-view: false
+
+  # Flyway config
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations:
+      - classpath:db/migration/common
+      - classpath:db/migration/tenant
+    schemas: public
+    table: flyway_schema_history # Default table name of flyway
+    validate-on-migrate: true
+
+# Server config
+server:
+  port: ${SERVER_PORT:8082}
