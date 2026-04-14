@@ -1,6 +1,8 @@
 package dev.jramde.saas.service;
 
+import dev.jramde.saas.common.JrPageResponse;
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface IBasicCrudService<I, O> {
 
@@ -8,7 +10,7 @@ public interface IBasicCrudService<I, O> {
 
     void update(final String id, final I request);
 
-    List<O> findAll(final int page, final int size);
+    JrPageResponse<O> findAll(final int page, final int size);
 
     O findById(final String id);
 
