@@ -11,6 +11,7 @@ import dev.jramde.saas.repository.JrProductRepository;
 import dev.jramde.saas.repository.JrStockMvmtRepository;
 import dev.jramde.saas.service.IProductService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class JrProductServiceImpl implements IProductService {
     private final JrProductRepository productRepository;
     private final JrStockMvmtRepository mvmtRepository;

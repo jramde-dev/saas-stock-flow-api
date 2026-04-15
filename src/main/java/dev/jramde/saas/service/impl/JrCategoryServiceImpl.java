@@ -9,6 +9,7 @@ import dev.jramde.saas.repository.JrCategoryRepository;
 import dev.jramde.saas.repository.JrProductRepository;
 import dev.jramde.saas.service.ICategoryService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class JrCategoryServiceImpl implements ICategoryService {
     private final JrCategoryRepository categoryRepository;
     private final JrProductRepository productRepository;

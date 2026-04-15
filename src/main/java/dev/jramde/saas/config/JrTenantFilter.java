@@ -44,7 +44,6 @@ public class JrTenantFilter implements Filter {
             httpResponse.setContentType("application/json");
             httpResponse.getWriter().write("{\"error\": \"Tenant ID is missing in the request header. "
                     + "Please add the header 'X-Tenant-ID' with a valid Tenant ID.\"}");
-            filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
         try {
@@ -59,8 +58,6 @@ public class JrTenantFilter implements Filter {
             // si le thread est réutilisé par le pool de threads du serveur.
             JrTenantContext.clear();
         }
-
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     private String resolveTenant(HttpServletRequest httpRequest) {
