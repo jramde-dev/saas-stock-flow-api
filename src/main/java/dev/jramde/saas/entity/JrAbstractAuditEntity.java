@@ -33,6 +33,9 @@ public class JrAbstractAuditEntity {
     @Column(name = "id")
     private String id;
 
+    @Column(name = "tenant_id")
+    private String tenantId;
+
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

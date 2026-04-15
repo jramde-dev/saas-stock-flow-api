@@ -1,8 +1,6 @@
 package dev.jramde.saas.service;
 
 import dev.jramde.saas.common.JrPageResponse;
-import java.util.List;
-import org.springframework.data.domain.Page;
 
 public interface IBasicCrudService<I, O> {
 
