@@ -1,10 +1,15 @@
 package dev.jramde.saas.exception;
 
 import dev.jramde.saas.exception.response.JrErrorResponse;
+import dev.jramde.saas.exception.response.JrErrorResponse.ValidationError;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -46,6 +51,32 @@ public class JrGlobalExceptionHandler {
                 .build();
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<JrErrorResponse> handle(
+            final MethodArgumentNotValidException ex,
+            final HttpServletRequest request) {
+
+        final List<ValidationError> validationErrors = new ArrayList<>();
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            final String fieldName = ((FieldError) error).getField();
+            final String errorMessage = error.getDefaultMessage();
+            final String errorCode = error.getDefaultMessage();
+
+            validationErrors.add(ValidationError.builder()
+                    .field(fieldName)
+                    .message(errorMessage)
+                    .errorCode(errorCode)
+                    .build());
+        });
+
+        final JrErrorResponse errorResponse = JrErrorResponse.builder()
+                .validationErrors(validationErrors)
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     /**
