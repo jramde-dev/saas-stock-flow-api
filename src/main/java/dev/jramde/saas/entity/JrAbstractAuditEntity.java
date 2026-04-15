@@ -1,6 +1,5 @@
 package dev.jramde.saas.entity;
 
-import dev.jramde.saas.config.JrTenantContext;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -14,9 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -40,21 +36,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@FilterDef(
-        name = "tenantFilter",
-        parameters = @ParamDef(name = "tenantId", type = String.class),
-        defaultCondition = "tenant_id = :tenantId"
-)
-@Filter(name = "tenantFilter")
 public class JrAbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private String id;
-
-    @Column(name = "tenant_id")
-    private String tenantId;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -83,11 +70,6 @@ public class JrAbstractAuditEntity {
 
         if (this.createdBy == null) {
             this.createdBy = "system";
-        }
-
-        // Fixer l'ID du tenant une fois de bon au lieu de le faire dans chaque service.
-        if (this.tenantId == null) {
-            this.tenantId = JrTenantContext.getCurrentTenant();
         }
     }
 }
