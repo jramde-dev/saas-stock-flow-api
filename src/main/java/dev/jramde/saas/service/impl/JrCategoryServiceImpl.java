@@ -4,6 +4,7 @@ import dev.jramde.saas.common.JrPageResponse;
 import dev.jramde.saas.dto.request.JrCategoryRequest;
 import dev.jramde.saas.dto.response.JrCategoryResponse;
 import dev.jramde.saas.entity.JrCategory;
+import dev.jramde.saas.exception.JrAlreadyExistException;
 import dev.jramde.saas.mapper.JrCategoryMapper;
 import dev.jramde.saas.repository.JrCategoryRepository;
 import dev.jramde.saas.repository.JrProductRepository;
@@ -26,7 +27,7 @@ public class JrCategoryServiceImpl implements ICategoryService {
     @Override
     public void create(JrCategoryRequest request) {
         categoryRepository.findByNameIgnoreCase(request.getName()).ifPresent(category -> {
-            throw new RuntimeException("Category already exists.");
+            throw new JrAlreadyExistException("Category already exists.");
         });
         categoryRepository.save(mapper.maps(request));
     }
@@ -38,7 +39,7 @@ public class JrCategoryServiceImpl implements ICategoryService {
         );
 
         categoryRepository.findByNameIgnoreCase(request.getName()).ifPresent(category -> {
-            throw new RuntimeException("Category with name " + request.getName() + " already exists.");
+            throw new JrAlreadyExistException("Category with name " + request.getName() + " already exists.");
         });
 
         JrCategory category = mapper.maps(request);

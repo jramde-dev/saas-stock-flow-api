@@ -5,6 +5,7 @@ import dev.jramde.saas.dto.request.JrProductRequest;
 import dev.jramde.saas.dto.response.JrProductResponse;
 import dev.jramde.saas.entity.JrCategory;
 import dev.jramde.saas.entity.JrProduct;
+import dev.jramde.saas.exception.JrAlreadyExistException;
 import dev.jramde.saas.mapper.JrProductMapper;
 import dev.jramde.saas.repository.JrCategoryRepository;
 import dev.jramde.saas.repository.JrProductRepository;
@@ -47,11 +48,11 @@ public class JrProductServiceImpl implements IProductService {
 
     private void checkProductAlreadyExist(JrProductRequest request) {
         productRepository.findByNameIgnoreCase(request.getName()).ifPresent(product -> {
-            throw new RuntimeException("Product with name " + request.getName() + " already exists.");
+            throw new JrAlreadyExistException("Product with name " + request.getName() + " already exists.");
         });
 
         productRepository.findByReferenceIgnoreCase(request.getReference()).ifPresent(product -> {
-            throw new RuntimeException("Product with reference " + request.getReference() + " already exists.");
+            throw new JrAlreadyExistException("Product with reference " + request.getReference() + " already exists.");
         });
 
         JrCategory category = categoryRepository.findById(request.getCategoryId()).orElseThrow(
