@@ -43,7 +43,7 @@ public class JrTenantFilter implements Filter {
             httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             httpResponse.setContentType("application/json");
             httpResponse.getWriter().write("{\"error\": \"Tenant ID is missing in the request header. "
-                    + "Please add the header 'X-Tenant-Id' with a valid Tenant ID.\"}");
+                    + "Please add the header 'X-Tenant-ID' with a valid Tenant ID.\"}");
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
