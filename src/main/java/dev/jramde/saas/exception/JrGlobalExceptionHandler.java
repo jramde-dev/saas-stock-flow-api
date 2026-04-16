@@ -2,6 +2,7 @@ package dev.jramde.saas.exception;
 
 import dev.jramde.saas.exception.response.JrErrorResponse;
 import dev.jramde.saas.exception.response.JrErrorResponse.ValidationError;
+import dev.jramde.saas.exception.response.JrUnauthorizedException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -88,6 +89,8 @@ public class JrGlobalExceptionHandler {
     private HttpStatus getHttpStatus(final JrBuisinessException ex) {
         if (ex instanceof JrAlreadyExistException) {
             return HttpStatus.CONFLICT;
+        } else if (ex instanceof JrUnauthorizedException) {
+            return HttpStatus.UNAUTHORIZED;
         }
 
         return HttpStatus.BAD_REQUEST;
