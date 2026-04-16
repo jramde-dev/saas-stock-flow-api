@@ -35,3 +35,8 @@ build/
 ### Environment ###
 .env
 
+### Certs ###
+src/main/resources/certs/private_key.pem
+
+
+
