@@ -15,6 +15,7 @@ package dev.jramde.saas.config;
 public class JrTenantContext {
 
     private static final ThreadLocal<String> CURRENT_TENANT = new ThreadLocal<>();
+    private static final ThreadLocal<String> CURRENT_SCHEMA = new ThreadLocal<>();
 
     public static void setCurrentTenant(String tenant) {
         CURRENT_TENANT.set(tenant);
@@ -32,5 +33,14 @@ public class JrTenantContext {
      */
     public static void clear() {
         CURRENT_TENANT.remove();
+        CURRENT_SCHEMA.remove();
+    }
+
+    public static void setCurrentSchema(String schemaName) {
+        CURRENT_SCHEMA.set(schemaName);
+    }
+
+    public static String getCurrentSchema() {
+        return CURRENT_SCHEMA.get();
     }
 }

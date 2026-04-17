@@ -1,4 +1,4 @@
-package dev.jramde.saas.config.security;
+package dev.jramde.saas.security;
 
 import dev.jramde.saas.config.properties.JrJwtProperties;
 import dev.jramde.saas.exception.response.JrUnauthorizedException;

@@ -1,9 +1,9 @@
 package dev.jramde.saas.entity.enums;
 
 public enum ERole {
-    PLATFORM_ADMIN, // Super Admin, le propriétaire de l'application
-    COMPANY_ADMIN,
-    ADMINISTRATOR, // Tenant admin, propriétaire d'une entreprise
-    SALES_OPERATOR,
-    USER,
+    ROLE_PLATFORM_ADMIN, // Super Admin, le propriétaire de l'application
+    ROLE_COMPANY_ADMIN,
+    ROLE_ADMINISTRATOR, // Tenant admin, propriétaire d'une entreprise
+    ROLE_SALES_OPERATOR,
+    ROLE_USER,
 }

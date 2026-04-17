@@ -8,9 +8,6 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 /**
  * Classe Java qui va intercepter les requêtes HTTP entrantes
@@ -25,8 +22,8 @@ import org.springframework.stereotype.Component;
  * Si aucun tenant n'est identifié, une erreur 400 (Bad Request) est retournée.
  * </p>
  */
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+// @Component
+// @Order(Ordered.HIGHEST_PRECEDENCE)
 public class JrTenantFilter implements Filter {
     private static final String TENANT_HEADER = "X-Tenant-ID";
 
