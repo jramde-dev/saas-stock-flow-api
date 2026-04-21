@@ -60,4 +60,11 @@ public class JrUser extends JrAbstractAuditEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+
+    public String getTenantId() {
+        if (tenant != null) {
+            return tenant.getId();
+        }
+        return null;
+    }
 }

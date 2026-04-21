@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,7 +26,7 @@ public class JrGlobalExceptionHandler {
      * @param request : l'url de la requête
      * @return une réponse avec le statut HTTP et le message d'erreur
      */
-    @ExceptionHandler(JrBuisinessException.class)
+    @ExceptionHandler(value = JrBuisinessException.class)
     public ResponseEntity<JrErrorResponse> handle(final JrBuisinessException ex, final HttpServletRequest request) {
         final HttpStatus httpStatus = getHttpStatus(ex);
         final JrErrorResponse errorResponse = JrErrorResponse.builder()
@@ -43,7 +45,7 @@ public class JrGlobalExceptionHandler {
      * @param request : l'url de la requête
      * @return une réponse avec le statut HTTP et le message d'erreur
      */
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler(value = {EntityNotFoundException.class, UsernameNotFoundException.class})
     public ResponseEntity<JrErrorResponse> handle(final EntityNotFoundException ex, final HttpServletRequest request) {
         final JrErrorResponse errorResponse = JrErrorResponse.builder()
                 .message(ex.getMessage())
@@ -54,7 +56,7 @@ public class JrGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<JrErrorResponse> handle(
             final MethodArgumentNotValidException ex,
             final HttpServletRequest request) {
@@ -78,6 +80,16 @@ public class JrGlobalExceptionHandler {
                 .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ResponseEntity<JrErrorResponse> handle(final BadCredentialsException ex, final HttpServletRequest request) {
+        final JrErrorResponse errorResponse = JrErrorResponse.builder()
+                .message("Login and/or password are incorrects.")
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
     /**
