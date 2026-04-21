@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -43,6 +44,7 @@ public class JrJwtAuthenticationFilter extends OncePerRequestFilter {
         // Filtrer les informations du token
         try {
             final String jwtToken = getJwtTokenFromRequest(request);
+
             if (StringUtils.hasText(jwtToken) && jwtService.validateToken(jwtToken)) {
                 final String userId = jwtService.getUserIdFromToken(jwtToken);
                 final String tenantId = jwtService.getTenantIdFromToken(jwtToken);
@@ -50,7 +52,7 @@ public class JrJwtAuthenticationFilter extends OncePerRequestFilter {
 
                 if (tenantId != null) {
                     JrTenantContext.setCurrentTenant(tenantId);
-                    final String schemaName = "to-be-defined";
+                    final String schemaName = "to-be-defined"; // TODO: Define the schema name
                     JrTenantContext.setCurrentSchema(schemaName);
                 }
 
@@ -58,6 +60,7 @@ public class JrJwtAuthenticationFilter extends OncePerRequestFilter {
                 final SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
                 final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userId, null, Collections.singletonList(authority));
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
                 log.debug("Successfully authenticated for user: {}, tenant: {}, role: {}", userId, tenantId, role);
@@ -65,7 +68,10 @@ public class JrJwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (final Exception e) {
             log.error("Error authenticating user.", e);
         }
+
         filterChain.doFilter(request, response);
+
+        // Nettoyer le contexte et libérer le Thread pour éviter les conflits entre les tenants.
         JrTenantContext.clear();
     }
 

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "app.jwt")
 public class JrJwtProperties {
-    private String privateKeyPath;
+    private String privateKeyPath; // Va référencer le fichier de la clé privée private-key-path dans application.yaml
     private String publicKeyPath;
     private long accessTokenExpiration;
 }
