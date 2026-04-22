@@ -1,6 +1,4 @@
-package dev.jramde.saas.exception.response;
-
-import dev.jramde.saas.exception.JrBuisinessException;
+package dev.jramde.saas.exception;
 
 public class JrUnauthorizedException extends JrBuisinessException {
     public JrUnauthorizedException(String message) {

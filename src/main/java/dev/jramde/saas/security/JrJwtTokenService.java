@@ -1,7 +1,7 @@
 package dev.jramde.saas.security;
 
 import dev.jramde.saas.config.properties.JrJwtProperties;
-import dev.jramde.saas.exception.response.JrUnauthorizedException;
+import dev.jramde.saas.exception.JrUnauthorizedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
