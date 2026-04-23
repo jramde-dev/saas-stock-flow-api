@@ -1,9 +1,12 @@
 package dev.jramde.saas.service.impl;
 
+import dev.jramde.saas.auth.repository.JrUserRepository;
 import dev.jramde.saas.common.JrPageResponse;
 import dev.jramde.saas.dto.request.JrRegisterTenantRequest;
 import dev.jramde.saas.dto.response.JrTenantResponse;
 import dev.jramde.saas.entity.JrTenant;
+import dev.jramde.saas.entity.JrUser;
+import dev.jramde.saas.entity.enums.ERole;
 import dev.jramde.saas.entity.enums.ETenantStatus;
 import dev.jramde.saas.exception.JrAlreadyExistException;
 import dev.jramde.saas.exception.JrInvalidRequestException;
@@ -13,6 +16,7 @@ import dev.jramde.saas.service.ITenantService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,9 +25,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class JrTenantServiceImpl implements ITenantService {
     public static final String TENANT_NOT_FOUND = "Tenant not found.";
     private final JrTenantRepository tenantRepository;
+    private final JrUserRepository userRepository;
     private final PasswordEncoder passwordEncoder; // Declare the bean
     private final JrTenantMapper mapper;
 
@@ -56,7 +62,20 @@ public class JrTenantServiceImpl implements ITenantService {
      */
     @Override
     public void approveTenant(String tenantId) {
+        final var tenant = tenantRepository.findById(tenantId)
+                .orElseThrow(() -> new EntityNotFoundException(TENANT_NOT_FOUND));
+        tenant.setStatus(ETenantStatus.ACTIVE);
+        tenantRepository.save(tenant);
 
+        try {
+            // Provide schema for the tenant
+
+            // Create initial admin user and credentials
+            createInitialAdminUser(tenant);
+        } catch (final Exception e) {
+            rollBackTenantStatus(tenant);
+            log.error("Failed to create initial admin user for tenant: {}", tenant.getCompanyName(), e);
+        }
     }
 
     /**
@@ -127,4 +146,39 @@ public class JrTenantServiceImpl implements ITenantService {
         final Page<JrTenantResponse> responses = tenants.map(mapper::maps);
         return JrPageResponse.of(responses);
     }
+
+    private void createInitialAdminUser(JrTenant tenant) {
+        if (userRepository.existsByUsername(tenant.getAdminUsername())) {
+            throw new JrAlreadyExistException("This user already exists.");
+        }
+
+        final var adminUser = JrUser.builder()
+                .username(tenant.getAdminUsername())
+                .email(tenant.getAdminEmail())
+                .firstName(tenant.extractFirstName())
+                .lastName(tenant.extractLastName())
+                .password(passwordEncoder.encode(tenant.getAdminPassword()))
+                .role(ERole.ROLE_COMPANY_ADMIN)
+                .tenant(tenant)
+                .enabled(true)
+                .build();
+        userRepository.save(adminUser);
+        log.info("|> Initial admin user created for tenant: {}", tenant.getCompanyName());
+    }
+
+    private void rollBackTenantStatus(final JrTenant tenant) {
+        tenant.setStatus(ETenantStatus.PENDING);
+        tenantRepository.save(tenant);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

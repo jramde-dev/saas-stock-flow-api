@@ -46,4 +46,14 @@ public class JrTenant extends JrAbstractAuditEntity {
 
     @Column(name = "admin_password")
     private String adminPassword;
+
+    public String extractFirstName() {
+        return this.adminFullName.split(" ")[0];
+    }
+
+    public String extractLastName() {
+        return this.adminFullName.split("").length > 1
+                ? this.adminFullName.split(" ")[1]
+                : this.adminFullName;
+    }
 }
