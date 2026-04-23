@@ -12,6 +12,7 @@ import dev.jramde.saas.exception.JrAlreadyExistException;
 import dev.jramde.saas.exception.JrInvalidRequestException;
 import dev.jramde.saas.mapper.JrTenantMapper;
 import dev.jramde.saas.repository.JrTenantRepository;
+import dev.jramde.saas.service.IProvisioningService;
 import dev.jramde.saas.service.ITenantService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -32,6 +33,7 @@ public class JrTenantServiceImpl implements ITenantService {
     private final JrUserRepository userRepository;
     private final PasswordEncoder passwordEncoder; // Declare the bean
     private final JrTenantMapper mapper;
+    private final IProvisioningService provisioningService;
 
 
     /**
@@ -69,7 +71,7 @@ public class JrTenantServiceImpl implements ITenantService {
 
         try {
             // Provide schema for the tenant
-
+            provisioningService.provideTenant(tenant);
             // Create initial admin user and credentials
             createInitialAdminUser(tenant);
         } catch (final Exception e) {

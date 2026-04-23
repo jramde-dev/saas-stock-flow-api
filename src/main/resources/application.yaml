@@ -26,7 +26,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: validate # Flway va valider que la structure Java qu'on a est compatible avec la base de données.
+      ddl-auto: create # Flway va valider que la structure Java qu'on a est compatible avec la base de données.
     properties:
       hibernate:
         format_sql: true
@@ -47,7 +47,6 @@ spring:
     baseline-on-migrate: true
     locations:
       - classpath:db/migration/common
-      - classpath:db/migration/tenant
     schemas: public
     table: flyway_schema_history # Default table name of flyway
     validate-on-migrate: true

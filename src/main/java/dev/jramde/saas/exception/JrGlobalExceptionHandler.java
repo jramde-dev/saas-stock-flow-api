@@ -104,6 +104,8 @@ public class JrGlobalExceptionHandler {
             return HttpStatus.UNAUTHORIZED;
         } else if (ex instanceof JrInvalidRequestException) {
             return HttpStatus.BAD_REQUEST;
+        } else if (ex instanceof JrTenantProvisioningException) {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         return HttpStatus.BAD_REQUEST;
