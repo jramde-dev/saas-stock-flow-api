@@ -62,9 +62,6 @@ public class JrUser extends JrAbstractAuditEntity implements UserDetails {
     }
 
     public String getTenantId() {
-        if (tenant != null) {
-            return tenant.getId();
-        }
-        return null;
+        return tenant != null ? tenant.getId() : null;
     }
 }

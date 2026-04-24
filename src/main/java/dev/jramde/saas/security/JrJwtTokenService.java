@@ -21,9 +21,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class JrJwtTokenService {
     private final JrJwtProperties jwtProperties;
     private PrivateKey privateKey;
@@ -36,8 +36,8 @@ public class JrJwtTokenService {
     @PostConstruct
     public void init() {
         try {
-            this.privateKey = this.loadPrivateKey(this.jwtProperties.getPrivateKeyPath());
-            this.publicKey = this.loadPublicKey(this.jwtProperties.getPublicKeyPath());
+            this.privateKey = loadPrivateKey(jwtProperties.getPrivateKeyPath());
+            this.publicKey = loadPublicKey(jwtProperties.getPublicKeyPath());
 
             log.info("Private and public keys loaded successfully");
         } catch (final Exception e) {
@@ -133,7 +133,7 @@ public class JrJwtTokenService {
      * @return
      * @throws Exception
      */
-    private PrivateKey loadPrivateKey(String privateKeyPath) throws Exception {
+    private PrivateKey loadPrivateKey(final String privateKeyPath) throws Exception {
         try (final InputStream inputStream = JrJwtTokenService.class.getResourceAsStream(privateKeyPath)) {
             if (inputStream == null) {
                 throw new RuntimeException("Private key not found.");
@@ -157,7 +157,7 @@ public class JrJwtTokenService {
      * @return la clé publique
      * @throws Exception
      */
-    private PublicKey loadPublicKey(String publicKeyPath) throws Exception {
+    private PublicKey loadPublicKey(final String publicKeyPath) throws Exception {
         try (final InputStream inputStream = JrJwtTokenService.class.getResourceAsStream(publicKeyPath)) {
             if (inputStream == null) {
                 throw new RuntimeException("Public key not found.");

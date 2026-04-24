@@ -63,7 +63,7 @@ public class JrSecurityConfig {
      * @return CorsConfigurationSource
      */
     @Bean
-    private CorsConfigurationSource corsConfigSource() {
+    public CorsConfigurationSource corsConfigSource() {
         final CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(List.of("*")); // Do not do this in production
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

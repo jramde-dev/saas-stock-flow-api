@@ -30,21 +30,26 @@ public class JrProvisioningServiceImpl implements IProvisioningService {
         final String schemaName = "tenant_" + tenant.getCompanyCode().toLowerCase();
 
         try {
-            log.info("|> Provisioning schema for tenant: {} (schema: {})", tenant.getCompanyName(), schemaName);
             // 1. Create Postgres schema
+            log.info("|> Provisioning schema for tenant: {} (schema: {})", tenant.getCompanyName(), schemaName);
+
             createSchema(schemaName);
             log.info("Schema created successfully: {}", schemaName);
 
             // 2. Run Flyway migrations for this tenant to create initial tables
             log.info("|> Running Flyway migrations for tenant: {} (schema: {})", tenant.getCompanyName(), schemaName);
+
             runMigrations(schemaName);
+
             log.info("|> Flyway migrations completed successfully for tenant: {} (schema: {})",
                     tenant.getCompanyName(), schemaName);
 
             // 3. Initialize tenant default data (optional)
             log.info("|> Initializing default data for tenant: {} (schema: {})",
                     tenant.getCompanyName(), schemaName);
+
             initializeDefaultData(schemaName, tenant);
+
             log.info("|> Default data initialized successfully for tenant: {} (schema: {})",
                     tenant.getCompanyName(), schemaName);
 

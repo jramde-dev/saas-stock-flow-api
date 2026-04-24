@@ -26,7 +26,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create # Flway va valider que la structure Java qu'on a est compatible avec la base de données.
+      ddl-auto: none # Flway va valider que la structure Java qu'on a est compatible avec la base de données.
     properties:
       hibernate:
         format_sql: true
@@ -58,6 +58,6 @@ server:
 # JWT config
 app:
   jwt:
-    private-key-path: ${JWT_PRIVATE_KEY_PATH:certs/private-key.pem}
-    public-key-path: ${JWT_PUBLIC_KEY_PATH:certs/public-key.pem}
+    private-key-path: ${JWT_PRIVATE_KEY_PATH:/certs/private_key.pem}
+    public-key-path: ${JWT_PUBLIC_KEY_PATH:/certs/public_key.pem}
     access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION:86400000} # 1 day in ms

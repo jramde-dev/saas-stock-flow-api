@@ -23,9 +23,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * Filtre d'authentification JWT.
  * Toute requête passera par ce filtre.
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class JrJwtAuthenticationFilter extends OncePerRequestFilter {
     private final JrJwtTokenService jwtService;
 
