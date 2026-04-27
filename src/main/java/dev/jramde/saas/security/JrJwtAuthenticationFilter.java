@@ -1,6 +1,7 @@
 package dev.jramde.saas.security;
 
 import dev.jramde.saas.config.JrTenantContext;
+import dev.jramde.saas.config.JrTenantSchemaResolver;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,6 +29,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class JrJwtAuthenticationFilter extends OncePerRequestFilter {
     private final JrJwtTokenService jwtService;
+    private final JrTenantSchemaResolver schemaResolver;
 
     @Override
     protected void doFilterInternal(
@@ -52,7 +54,9 @@ public class JrJwtAuthenticationFilter extends OncePerRequestFilter {
 
                 if (tenantId != null) {
                     JrTenantContext.setCurrentTenant(tenantId);
-                    final String schemaName = "to-be-defined"; // TODO: Define the schema name
+
+                    // Récupérer le schema du tenant déjà créé
+                    final String schemaName = schemaResolver.resolveSchema(tenantId);
                     JrTenantContext.setCurrentSchema(schemaName);
                 }
 

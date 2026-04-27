@@ -1,9 +1,9 @@
 package dev.jramde.saas.service.impl;
 
+import dev.jramde.saas.common.JrUtils;
 import dev.jramde.saas.entity.JrTenant;
 import dev.jramde.saas.exception.JrTenantProvisioningException;
 import dev.jramde.saas.service.IProvisioningService;
-import jakarta.transaction.Transactional;
 import javax.sql.DataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,8 @@ public class JrProvisioningServiceImpl implements IProvisioningService {
 
     @Override
     public void provideTenant(final JrTenant tenant) {
-        final String schemaName = ("tenant_" + tenant.getCompanyCode().toLowerCase()).replace("-", "");
+        //final String schemaName = ("tenant_" + tenant.getCompanyCode().toLowerCase()).replace("-", "");
+        final String schemaName = JrUtils.resolveSchemaName(tenant.getCompanyCode());
 
         try {
             // 1. Create Postgres schema
