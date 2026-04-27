@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-@Transactional
 public class JrProvisioningServiceImpl implements IProvisioningService {
     private final JdbcTemplate jdbcTemplate;
     private final DataSource dataSource;
@@ -27,7 +26,7 @@ public class JrProvisioningServiceImpl implements IProvisioningService {
 
     @Override
     public void provideTenant(final JrTenant tenant) {
-        final String schemaName = "tenant_" + tenant.getCompanyCode().toLowerCase();
+        final String schemaName = ("tenant_" + tenant.getCompanyCode().toLowerCase()).replace("-", "");
 
         try {
             // 1. Create Postgres schema

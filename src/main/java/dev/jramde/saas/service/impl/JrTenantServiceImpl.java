@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class JrTenantServiceImpl implements ITenantService {
     public static final String TENANT_NOT_FOUND = "Tenant not found.";
@@ -42,6 +41,7 @@ public class JrTenantServiceImpl implements ITenantService {
      * @param request : The organization information.
      */
     @Override
+    @Transactional
     public void registerTenant(JrRegisterTenantRequest request) {
         if (tenantRepository.existsByCompanyCode(request.getCompanyCode())) {
             throw new JrAlreadyExistException("This code is already used.");
@@ -59,6 +59,7 @@ public class JrTenantServiceImpl implements ITenantService {
 
     /**
      * Super admin approves a tenant registration.
+     * Ici, pas besoin de transaction car on JDBC va executer les instructions SQL et créer sa propre transaction.
      *
      * @param tenantId : The tenant id.
      */
@@ -70,7 +71,7 @@ public class JrTenantServiceImpl implements ITenantService {
         tenantRepository.save(tenant);
 
         try {
-            // Provide schema for the tenant
+            // Provide schema for the tenant (JDBC)
             provisioningService.provideTenant(tenant);
             // Create initial admin user and credentials
             createInitialAdminUser(tenant);
@@ -86,6 +87,7 @@ public class JrTenantServiceImpl implements ITenantService {
      * @param tenantId : The tenant id.
      */
     @Override
+    @Transactional
     public void activateTenant(String tenantId) {
         final var tenant = tenantRepository.findById(tenantId)
                 .orElseThrow(() -> new EntityNotFoundException(TENANT_NOT_FOUND));
@@ -104,6 +106,7 @@ public class JrTenantServiceImpl implements ITenantService {
      * @param tenantId : The tenant id.
      */
     @Override
+    @Transactional
     public void deactivateTenant(String tenantId) {
         final var tenant = tenantRepository.findById(tenantId)
                 .orElseThrow(() -> new EntityNotFoundException(TENANT_NOT_FOUND));
@@ -122,6 +125,7 @@ public class JrTenantServiceImpl implements ITenantService {
      * @param tenantId : The tenant id.
      */
     @Override
+    @Transactional
     public void suspendTenant(String tenantId) {
         final var tenant = tenantRepository.findById(tenantId)
                 .orElseThrow(() -> new EntityNotFoundException(TENANT_NOT_FOUND));
@@ -142,6 +146,7 @@ public class JrTenantServiceImpl implements ITenantService {
      * @return : The registered tenants paginated.
      */
     @Override
+    @Transactional
     public JrPageResponse<JrTenantResponse> findAll(int page, int size) {
         final PageRequest pageRequest = PageRequest.of(page, size);
         final Page<JrTenant> tenants = tenantRepository.findAll(pageRequest);

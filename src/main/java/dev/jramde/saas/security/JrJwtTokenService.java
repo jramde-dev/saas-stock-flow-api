@@ -58,13 +58,12 @@ public class JrJwtTokenService {
             @Nonnull final String tenantId,
             @Nonnull final String userId,
             @Nonnull final String role) {
-        final Date now = new Date();
-        final Date expiration = new Date(now.getTime() + this.jwtProperties.getAccessTokenExpiration());
+        final Date expiration = new Date(System.currentTimeMillis() + this.jwtProperties.getAccessTokenExpiration());
         return Jwts.builder()
                 .subject(userId)
                 .claim("tenantId", tenantId)
                 .claim("role", role)
-                .issuedAt(now)
+                .issuedAt(new Date())
                 .expiration(expiration)
                 .issuer("saas-stock-flow")
                 .signWith(this.privateKey, Jwts.SIG.RS256)

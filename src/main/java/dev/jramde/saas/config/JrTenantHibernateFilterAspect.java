@@ -49,8 +49,8 @@ import org.springframework.stereotype.Component;
  * <p> On pourrait aussi utiliser un HandlerInterceptor ou un @EventListener.
  * L'aspect est plus propre car il s'exécute au plus proche de la couche de données.
  */
-@Aspect
-@Component
+// @Aspect
+// @Component
 public class JrTenantHibernateFilterAspect {
 
     @PersistenceContext
