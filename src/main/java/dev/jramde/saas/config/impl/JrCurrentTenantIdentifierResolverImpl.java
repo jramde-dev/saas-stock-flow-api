@@ -27,6 +27,8 @@ import static org.hibernate.cfg.MultiTenancySettings.MULTI_TENANT_IDENTIFIER_RES
 public class JrCurrentTenantIdentifierResolverImpl implements CurrentTenantIdentifierResolver<String>,
         HibernatePropertiesCustomizer {
 
+    public static final String PUBLIC_SCHEMA = "public";
+
     /**
      * Récupère l'identifiant du tenant actuel utilisé pour déterminer le contexte
      * du tenant actif dans une configuration d'application multi-tenants. Cette méthode est appelée
@@ -40,6 +42,9 @@ public class JrCurrentTenantIdentifierResolverImpl implements CurrentTenantIdent
     public String resolveCurrentTenantIdentifier() {
         final String schemaName = JrTenantContext.getCurrentSchema();
         log.trace("|> Current tenant schema identifier : {}", schemaName);
+        if (schemaName == null) {
+            return PUBLIC_SCHEMA;
+        }
         return schemaName;
     }
 
