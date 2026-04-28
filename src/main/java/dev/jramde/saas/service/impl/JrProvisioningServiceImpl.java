@@ -19,14 +19,13 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class JrProvisioningServiceImpl implements IProvisioningService {
+    private static final String MIGRATION_LOCATION = "classpath:db/migration/tenant";
     private final JdbcTemplate jdbcTemplate;
     private final DataSource dataSource;
-    final String MIGRATION_LOCATION = "classpath:db/migration/tenant";
 
 
     @Override
     public void provideTenant(final JrTenant tenant) {
-        //final String schemaName = ("tenant_" + tenant.getCompanyCode().toLowerCase()).replace("-", "");
         final String schemaName = JrUtils.resolveSchemaName(tenant.getCompanyCode());
 
         try {
@@ -47,8 +46,6 @@ public class JrProvisioningServiceImpl implements IProvisioningService {
             // 3. Initialize tenant default data (optional)
             log.info("|> Initializing default data for tenant: {} (schema: {})",
                     tenant.getCompanyName(), schemaName);
-
-            initializeDefaultData(schemaName, tenant);
 
             log.info("|> Default data initialized successfully for tenant: {} (schema: {})",
                     tenant.getCompanyName(), schemaName);
@@ -89,10 +86,6 @@ public class JrProvisioningServiceImpl implements IProvisioningService {
         log.info("|> Flyway migrations started...");
         flyway.migrate();
         log.info("|> Flyway migrations completed successfully");
-    }
-
-    private void initializeDefaultData(final String schemaName, final JrTenant tenant) {
-        // Add default data for the tenant
     }
 
     private void dropSchema(final String schemaName) {
