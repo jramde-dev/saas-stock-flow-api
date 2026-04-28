@@ -67,9 +67,5 @@ public class JrAbstractAuditEntity {
         if (this.deleted == null) {
             this.deleted = Boolean.FALSE;
         }
-
-        if (this.createdBy == null) {
-            this.createdBy = "system";
-        }
     }
 }
