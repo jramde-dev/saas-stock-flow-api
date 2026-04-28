@@ -27,16 +27,19 @@ public class JrTenant extends JrAbstractAuditEntity {
     @Column(name = "company_code")
     private String companyCode;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "company_email")
+    private String companyEmail;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ETenantStatus status = ETenantStatus.PENDING;
 
     // Company admin initial credentials
-    @Column(name = "admin_full_name")
-    private String adminFullName;
+    @Column(name = "admin_first_name")
+    private String adminFirstName;
+
+    @Column(name = "admin_last_name")
+    private String adminLastName;
 
     @Column(name = "admin_email")
     private String adminEmail;
@@ -47,13 +50,7 @@ public class JrTenant extends JrAbstractAuditEntity {
     @Column(name = "admin_password")
     private String adminPassword;
 
-    public String extractFirstName() {
-        return this.adminFullName.split(" ")[0];
-    }
-
-    public String extractLastName() {
-        return this.adminFullName.split("").length > 1
-                ? this.adminFullName.split(" ")[1]
-                : this.adminFullName;
+    public String getAdminFullName() {
+        return this.adminFirstName + " " + this.adminLastName;
     }
 }

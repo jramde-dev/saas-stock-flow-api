@@ -1,6 +1,5 @@
 package dev.jramde.saas.config;
 
-import dev.jramde.saas.entity.JrUser;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +18,11 @@ public class JrJpaAuditingConfig {
 
     public static class AuditorAwareImpl implements AuditorAware<String> {
 
+        /**
+         * Récupère l'identifiant de l'utilisateur actuel.
+         *
+         * @return l'identifiant de l'utilisateur actuel
+         */
         @Override
         public Optional<String> getCurrentAuditor() {
             final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -29,9 +33,8 @@ public class JrJpaAuditingConfig {
                 return Optional.empty();
             }
 
-            final JrUser user = (JrUser) authentication.getPrincipal();
-            if (user != null) {
-                return Optional.of(user.getUsername());
+            if (authentication.getPrincipal() != null) {
+                return Optional.of((String) authentication.getPrincipal());
             }
 
             return Optional.empty();

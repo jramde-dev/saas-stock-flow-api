@@ -47,7 +47,7 @@ public class JrTenantServiceImpl implements ITenantService {
             throw new JrAlreadyExistException("This code is already used.");
         }
 
-        if (tenantRepository.existsByEmail(request.getEmail())) {
+        if (tenantRepository.existsByCompanyEmail(request.getCompanyEmail())) {
             throw new JrAlreadyExistException("This email is already used.");
         }
 
@@ -162,8 +162,8 @@ public class JrTenantServiceImpl implements ITenantService {
         final var adminUser = JrUser.builder()
                 .username(tenant.getAdminUsername())
                 .email(tenant.getAdminEmail())
-                .firstName(tenant.extractFirstName())
-                .lastName(tenant.extractLastName())
+                .firstName(tenant.getAdminFirstName())
+                .lastName(tenant.getAdminLastName())
                 .password(passwordEncoder.encode(tenant.getAdminPassword()))
                 .role(ERole.ROLE_COMPANY_ADMIN)
                 .tenant(tenant)

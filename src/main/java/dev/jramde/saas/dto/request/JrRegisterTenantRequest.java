@@ -21,10 +21,13 @@ public class JrRegisterTenantRequest {
     private String companyCode;
 
     @NotBlank(message = "Company email is required.")
-    private String email;
+    private String companyEmail;
 
-    @NotBlank(message = "Admin full name is required.")
-    private String adminFullName;
+    @NotBlank(message = "Admin first name is required.")
+    private String adminFirstName;
+
+    @NotBlank(message = "Admin last name is required.")
+    private String adminLastName;
 
     @NotBlank(message = "Admin email is required.")
     private String adminEmail;

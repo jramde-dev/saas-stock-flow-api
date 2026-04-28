@@ -17,8 +17,9 @@ public class JrTenantResponse {
     private String tenantId;
     private String companyName;
     private String companyCode;
-    private String email;
-    private String adminFullName;
+    private String companyEmail;
+    private String adminFirstName;
+    private String adminLastName;
     private String adminEmail;
     private String adminUsername;
     private String adminPassword;

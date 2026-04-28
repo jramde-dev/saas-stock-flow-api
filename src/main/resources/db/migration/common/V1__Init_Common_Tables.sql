@@ -13,8 +13,7 @@ create table jr_tenants
     email           varchar(255),
     id              varchar(255) not null primary key,
     status          varchar(255)
-        constraint jr_tenants_status_check
-            check ((status)::text = ANY
+        constraint jr_tenants_status_check check ((status)::text = ANY
         ((ARRAY [
         'PENDING':: character varying,
         'ACTIVE':: character varying,
@@ -46,9 +45,7 @@ create table jr_users
         'ROLE_SALES_OPERATOR':: character varying,
         'ROLE_USER':: character varying])::text[])
 ) ,
-    tenant_id  varchar(255)
-        constraint fk_user_tenant_id
-            references jr_tenants,
+    tenant_id  varchar(255) constraint fk_user_tenant_id references jr_tenants,
     updated_by varchar(255),
     username   varchar(255)
 );
