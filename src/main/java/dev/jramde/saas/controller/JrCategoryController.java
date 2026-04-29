@@ -4,6 +4,7 @@ import dev.jramde.saas.common.JrPageResponse;
 import dev.jramde.saas.dto.request.JrCategoryRequest;
 import dev.jramde.saas.dto.response.JrCategoryResponse;
 import dev.jramde.saas.service.ICategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
+@Tag(name = "Category", description = "Category API")
 public class JrCategoryController {
     private final ICategoryService service;
 

@@ -4,6 +4,7 @@ import dev.jramde.saas.common.JrPageResponse;
 import dev.jramde.saas.dto.request.JrUserRequest;
 import dev.jramde.saas.dto.response.JrUserResponse;
 import dev.jramde.saas.service.IUserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
+@Tag(name = "User", description = "User API")
 public class JrUserController {
     private final IUserService userService;
 

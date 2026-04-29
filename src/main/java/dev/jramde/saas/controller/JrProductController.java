@@ -4,6 +4,7 @@ import dev.jramde.saas.common.JrPageResponse;
 import dev.jramde.saas.dto.request.JrProductRequest;
 import dev.jramde.saas.dto.response.JrProductResponse;
 import dev.jramde.saas.service.IProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
+@Tag(name = "Product", description = "Product API")
 public class JrProductController {
     private final IProductService service;
 

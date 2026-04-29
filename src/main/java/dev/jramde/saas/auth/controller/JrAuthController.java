@@ -5,6 +5,7 @@ import dev.jramde.saas.auth.dto.response.JrLoginResponse;
 import dev.jramde.saas.auth.service.IAuthService;
 import dev.jramde.saas.dto.request.JrRegisterTenantRequest;
 import dev.jramde.saas.service.ITenantService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "Authentication API")
 public class JrAuthController {
     private final IAuthService authService;
     private final ITenantService tenantService;
