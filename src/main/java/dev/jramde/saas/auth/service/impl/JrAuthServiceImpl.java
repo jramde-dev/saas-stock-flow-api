@@ -5,6 +5,7 @@ import dev.jramde.saas.auth.dto.response.JrLoginResponse;
 import dev.jramde.saas.auth.service.IAuthService;
 import dev.jramde.saas.entity.JrUser;
 import dev.jramde.saas.security.JrJwtTokenService;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +25,7 @@ public class JrAuthServiceImpl implements IAuthService {
 
         final JrUser user = (JrUser) authentication.getPrincipal();
         final String token = jwtTokenService.generateAccessToken(
-                user.getTenantId(), user.getId(), user.getRole().name());
+                Objects.requireNonNull(user).getTenantId(), user.getId(), user.getRole().name());
         final String tokenType = "Bearer";
 
         return JrLoginResponse.builder()
