@@ -43,13 +43,6 @@ public class JrProvisioningServiceImpl implements IProvisioningService {
             log.info("|> Flyway migrations completed successfully for tenant: {} (schema: {})",
                     tenant.getCompanyName(), schemaName);
 
-            // 3. Initialize tenant default data (optional)
-            log.info("|> Initializing default data for tenant: {} (schema: {})",
-                    tenant.getCompanyName(), schemaName);
-
-            log.info("|> Default data initialized successfully for tenant: {} (schema: {})",
-                    tenant.getCompanyName(), schemaName);
-
         } catch (final Exception e) {
             log.error("|> Failed to provision schema for tenant: {}", tenant.getCompanyName(), e);
 

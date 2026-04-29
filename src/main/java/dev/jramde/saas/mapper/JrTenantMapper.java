@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JrTenantMapper {
+
     public JrTenant maps(final JrRegisterTenantRequest request) {
         return JrTenant.builder()
                 .companyName(request.getCompanyName())
@@ -31,7 +32,6 @@ public class JrTenantMapper {
                 .adminLastName(tenant.getAdminLastName())
                 .adminEmail(tenant.getAdminEmail())
                 .adminUsername(tenant.getAdminUsername())
-                .adminPassword(tenant.getAdminPassword())
                 .status(tenant.getStatus())
                 .createdAt(tenant.getCreatedAt())
                 .build();

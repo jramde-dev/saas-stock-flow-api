@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JrUserMapper {
+
     public JrUser maps(JrUserRequest request) {
         return JrUser.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(request.getPassword())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .role(request.getRole())

@@ -164,7 +164,7 @@ public class JrTenantServiceImpl implements ITenantService {
                 .email(tenant.getAdminEmail())
                 .firstName(tenant.getAdminFirstName())
                 .lastName(tenant.getAdminLastName())
-                .password(passwordEncoder.encode(tenant.getAdminPassword()))
+                .password(tenant.getAdminPassword())
                 .role(ERole.ROLE_COMPANY_ADMIN)
                 .tenant(tenant)
                 .enabled(true)
