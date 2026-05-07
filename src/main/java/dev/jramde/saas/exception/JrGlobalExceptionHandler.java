@@ -64,7 +64,7 @@ public class JrGlobalExceptionHandler {
         ex.getBindingResult().getAllErrors().forEach(error -> {
             final String fieldName = ((FieldError) error).getField();
             final String errorMessage = error.getDefaultMessage();
-            final String errorCode = error.getDefaultMessage();
+            final String errorCode = String.valueOf(HttpStatus.BAD_REQUEST.value());
 
             validationErrors.add(ValidationError.builder()
                     .field(fieldName)

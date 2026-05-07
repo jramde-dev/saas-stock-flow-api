@@ -48,11 +48,12 @@ public class JrJwtTokenService {
 
     /**
      * Génère un token JWT d'authentification.
+     * Ce sont les informations qui seront cryptées dans le token.
      *
-     * @param tenantId
-     * @param userId
-     * @param role
-     * @return
+     * @param tenantId : l'identifiant du tenant
+     * @param userId   : l'identifiant de l'utilisateur connecté
+     * @param role     : le role de l'utilisateur
+     * @return le token JWT
      */
     public String generateAccessToken(
             @Nonnull final String tenantId,

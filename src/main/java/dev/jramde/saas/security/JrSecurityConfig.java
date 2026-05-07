@@ -66,9 +66,9 @@ public class JrSecurityConfig {
     public CorsConfigurationSource corsConfigSource() {
         final CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(List.of("*")); // Do not do this in production
-        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(List.of("*"));
-        corsConfiguration.setAllowCredentials(true);
+        // corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setMaxAge(3600L);
 
         // Définir sur quelle source on veut appliquer cette config
