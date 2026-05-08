@@ -16,6 +16,7 @@ public class JrMvmtMapper {
                 .quantity(request.getQuantity())
                 .dateMvmt(request.getDateMvmt())
                 .comment(request.getComment())
+                .deleted(Boolean.FALSE)
                 .product(request.getProductId() != null ?
                         JrProduct.builder()
                         .id(request.getProductId())

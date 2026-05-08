@@ -12,6 +12,7 @@ public class JrCategoryMapper {
         return JrCategory.builder()
                 .name(request.getName())
                 .description(request.getDescription())
+                .deleted(Boolean.FALSE)
                 .build();
     }
 

@@ -15,6 +15,7 @@ public class JrUserMapper {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .role(request.getRole())
+                .deleted(Boolean.FALSE)
                 .build();
     }
 

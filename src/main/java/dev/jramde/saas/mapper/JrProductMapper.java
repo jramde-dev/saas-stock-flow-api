@@ -17,6 +17,7 @@ public class JrProductMapper {
                 .description(request.getDescription())
                 .alertThreshold(request.getAlertThreshold())
                 .price(request.getPrice())
+                .deleted(Boolean.FALSE)
                 .category(request.getCategoryId() != null ?
                         JrCategory.builder()
                         .id(request.getCategoryId())

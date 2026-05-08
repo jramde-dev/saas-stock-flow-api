@@ -19,6 +19,7 @@ public class JrTenantMapper {
                 .adminEmail(request.getAdminEmail())
                 .adminUsername(request.getAdminUsername())
                 .status(ETenantStatus.PENDING)
+                .deleted(Boolean.FALSE)
                 .build();
     }
 
