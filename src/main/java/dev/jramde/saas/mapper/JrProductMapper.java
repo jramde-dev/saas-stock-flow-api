@@ -4,8 +4,6 @@ import dev.jramde.saas.dto.request.JrProductRequest;
 import dev.jramde.saas.dto.response.JrProductResponse;
 import dev.jramde.saas.entity.JrCategory;
 import dev.jramde.saas.entity.JrProduct;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 
@@ -28,6 +26,7 @@ public class JrProductMapper {
 
     public JrProductResponse maps(JrProduct entity) {
         return JrProductResponse.builder()
+                .id(entity.getId())
                 .name(entity.getName())
                 .reference(entity.getReference())
                 .description(entity.getDescription())
@@ -36,11 +35,5 @@ public class JrProductMapper {
                 .categoryName(entity.getCategory().getName())
                 // .availableQuantity() to be implemented later
                 .build();
-    }
-
-    public List<JrProductResponse> toProductList(List<JrProduct> entities) {
-        return entities.stream()
-                .map(this::maps)
-                .collect(Collectors.toList());
     }
 }

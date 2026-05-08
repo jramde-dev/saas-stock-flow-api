@@ -57,6 +57,21 @@ public class JrTenantServiceImpl implements ITenantService {
         tenantRepository.save(tenant);
     }
 
+    // <div class="flex justify-content-center gap-2">
+    //                    @if (tenant.status === 'PENDING') {
+    //                      <i (click)="approveTenant(tenant.tenantId)" class="cursor-pointer pi pi-check" style="color: green" pTooltip="Approve"
+    //                         tooltipPosition="top"></i>
+    //                    } @else if (tenant.status === 'ACTIVE') {
+    //                      <i (click)="deactivateTenant(tenant.tenantId)" class="cursor-pointer pi pi-circle-on" style="color: darkgreen" pTooltip="Deactivate"
+    //                         tooltipPosition="top"></i>
+    //                      <i (click)="suspendTenant(tenant.tenantId)" class="cursor-pointer pi pi-times" style="color: red" pTooltip="Suspend"
+    //                         tooltipPosition="top"></i>
+    //                    } @else if (tenant.status === 'INACTIVE' || tenant.status === 'SUSPENDED') {
+    //                      <i (click)="activateTenant(tenant.tenantId)" class="cursor-pointer pi pi-circle-off" style="color: dodgerblue" pTooltip="Activate"
+    //                         tooltipPosition="top"></i>
+    //                    }
+    //                  </div>
+
     /**
      * Super admin approves a tenant registration.
      * Ici, pas besoin de transaction car on JDBC va executer les instructions SQL et créer sa propre transaction.
@@ -92,8 +107,8 @@ public class JrTenantServiceImpl implements ITenantService {
         final var tenant = tenantRepository.findById(tenantId)
                 .orElseThrow(() -> new EntityNotFoundException(TENANT_NOT_FOUND));
 
-        if (tenant.getStatus() != ETenantStatus.PENDING) {
-            throw new JrInvalidRequestException("Tenant is not in pending state.");
+        if ((tenant.getStatus() != ETenantStatus.INACTIVE) && (tenant.getStatus() != ETenantStatus.SUSPENDED)) {
+            throw new JrInvalidRequestException("Tenant is not in inactive nor suspended state.");
         }
 
         tenant.setStatus(ETenantStatus.ACTIVE);

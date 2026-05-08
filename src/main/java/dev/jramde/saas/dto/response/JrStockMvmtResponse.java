@@ -14,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class JrStockMvmtResponse {
+    private String id;
     private ETypeMvmt typeMvmt;
     private Integer quantity;
     private LocalDateTime dateMvmt;

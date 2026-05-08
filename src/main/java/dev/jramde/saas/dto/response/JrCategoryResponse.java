@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class JrCategoryResponse {
+    private String id;
     private String name;
     private String description;
     private int totalProducts;

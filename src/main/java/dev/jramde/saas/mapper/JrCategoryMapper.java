@@ -3,7 +3,6 @@ package dev.jramde.saas.mapper;
 import dev.jramde.saas.dto.request.JrCategoryRequest;
 import dev.jramde.saas.dto.response.JrCategoryResponse;
 import dev.jramde.saas.entity.JrCategory;
-import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,15 +17,10 @@ public class JrCategoryMapper {
 
     public JrCategoryResponse maps(JrCategory entity) {
         return JrCategoryResponse.builder()
+                .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .totalProducts(entity.getProducts().size())
                 .build();
-    }
-
-    public List<JrCategoryResponse> toCategoryList(List<JrCategory> entities) {
-        return entities.stream()
-                .map(this::maps)
-                .toList();
     }
 }

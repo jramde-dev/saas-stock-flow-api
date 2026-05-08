@@ -13,6 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class JrUserResponse {
+    private String id;
     private String username;
     private String email;
     private String password;

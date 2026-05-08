@@ -20,6 +20,7 @@ public class JrUserMapper {
 
     public JrUserResponse maps(JrUser entity) {
         return JrUserResponse.builder()
+                .id(entity.getId())
                 .username(entity.getUsername())
                 .email(entity.getEmail())
                 .firstName(entity.getFirstName())

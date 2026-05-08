@@ -13,6 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class JrProductResponse {
+    private String id;
     private String name;
     private String reference;
     private String description;
