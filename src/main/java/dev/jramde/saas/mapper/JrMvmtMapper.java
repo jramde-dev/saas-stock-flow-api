@@ -29,7 +29,7 @@ public class JrMvmtMapper {
                 .id(entity.getId())
                 .typeMvmt(entity.getTypeMvmt())
                 .quantity(entity.getQuantity())
-                .dateMvmt(entity.getDateMvmt())
+                .dateMvmt(entity.getDateMvmt().toLocalDate())
                 .comment(entity.getComment())
                 .build();
     }

@@ -6,6 +6,7 @@ import dev.jramde.saas.dto.response.JrStockMvmtResponse;
 import dev.jramde.saas.service.IStockMvmtService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,6 +43,15 @@ public class JrMvmtController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(service.findAll(page, size));
+    }
+
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<JrPageResponse<JrStockMvmtResponse>> findAllByProductId(
+            @NotNull(message = "Product is required to filter the movements")
+            @PathVariable String productId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(service.findAllByProductId(productId, page, size));
     }
 
     @GetMapping("/{mvmtId}")

@@ -1,7 +1,8 @@
 package dev.jramde.saas.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.jramde.saas.entity.enums.ETypeMvmt;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +18,8 @@ public class JrStockMvmtResponse {
     private String id;
     private ETypeMvmt typeMvmt;
     private Integer quantity;
-    private LocalDateTime dateMvmt;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate dateMvmt;
     private String comment;
 }

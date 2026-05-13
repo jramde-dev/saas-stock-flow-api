@@ -11,6 +11,7 @@ import dev.jramde.saas.repository.JrStockMvmtRepository;
 import dev.jramde.saas.service.IStockMvmtService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,14 +30,16 @@ public class JrMvmtServiceImpl implements IStockMvmtService {
     @Override
     public void create(JrStockMvmtRequest request) {
         checkProductExist(request);
+        request.setDateMvmt(LocalDateTime.now());
         mvmtRepository.save(mapper.maps(request));
     }
 
     @Override
     public void update(String id, JrStockMvmtRequest request) {
-        mvmtRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("This movement does not exist."));
         checkProductExist(request);
+        var oldMvmt = mvmtRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("This movement does not exist."));
+        request.setDateMvmt(oldMvmt.getDateMvmt());
         JrStockMvmt mvmt = mapper.maps(request);
         mvmt.setId(id);
         mvmtRepository.save(mvmt);
@@ -46,6 +49,14 @@ public class JrMvmtServiceImpl implements IStockMvmtService {
     public JrPageResponse<JrStockMvmtResponse> findAll(int page, int size) {
         final PageRequest pageRequest = PageRequest.of(page, size);
         final Page<JrStockMvmt> mvmts = mvmtRepository.findAll(pageRequest);
+        final Page<JrStockMvmtResponse> responses = mvmts.map(mapper::maps);
+        return JrPageResponse.of(responses);
+    }
+
+    @Override
+    public JrPageResponse<JrStockMvmtResponse> findAllByProductId(final String productId, int page, int size) {
+        final PageRequest pageRequest = PageRequest.of(page, size);
+        final Page<JrStockMvmt> mvmts = mvmtRepository.findAllByProductId(productId, pageRequest);
         final Page<JrStockMvmtResponse> responses = mvmts.map(mapper::maps);
         return JrPageResponse.of(responses);
     }

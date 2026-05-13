@@ -19,6 +19,7 @@ public class JrProductResponse {
     private String description;
     private Integer alertThreshold;
     private BigDecimal price;
+    private String categoryId;
     private String categoryName;
     private int availableQuantity;
 }

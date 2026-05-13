@@ -33,6 +33,7 @@ public class JrProductMapper {
                 .description(entity.getDescription())
                 .alertThreshold(entity.getAlertThreshold())
                 .price(entity.getPrice())
+                .categoryId(entity.getCategory().getId())
                 .categoryName(entity.getCategory().getName())
                 // .availableQuantity() to be implemented later
                 .build();
