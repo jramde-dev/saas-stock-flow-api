@@ -49,7 +49,7 @@ public class JrUserServiceImpl implements IUserService {
         }
 
         if (request.getRole().equals(ERole.ROLE_PLATFORM_ADMIN)) {
-            throw new JrInvalidRequestException("Impossible to create user with this role.");
+            throw new JrInvalidRequestException("User cannot have this role.");
         }
 
         final JrUser user = mapper.maps(request);
